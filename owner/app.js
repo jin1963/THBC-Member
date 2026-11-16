@@ -28,7 +28,7 @@ try{if(!window.ethereum)throw Error("เปิดผ่าน MetaMask หรื
 walletProvider=new ethers.BrowserProvider(window.ethereum);await walletProvider.send("eth_requestAccounts",[]);
 const network=await walletProvider.getNetwork();
 if(network.chainId!==56n){try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]})}catch(e){if(e.code===4902){await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x38",chainName:"BNB Smart Chain",nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},rpcUrls:[RPC],blockExplorerUrls:["https://bscscan.com"]}]})}else throw e}}
-walletProvider=new ethers.BrowserProvider(window.ethereum)}
+walletProvider=new ethers.BrowserProvider(window.ethereum);
 signer=await walletProvider.getSigner();account=await signer.getAddress();updateButtons();await refresh();
 }catch(e){message("เชื่อมต่อไม่สำเร็จ: "+(e.shortMessage||e.message))}}
 async function transact(fn){if(busy)return;try{if(!signer||!account)throw Error("Connect Owner Wallet first");if(!owner||account.toLowerCase()!==owner.toLowerCase())throw Error("Only contract Owner may perform this action");
